@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Редактировать задачу #{{ user_task.id }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task-edit.css' %}">
+
+<div class="edit-container">
+    <div class="edit-header">
+        <div class="header-left">
+            <h1>Редактировать задачу #{{ user_task.id }}</h1>
+        </div>
+        <a href="{% url 'ansys_api_retrieve_user_task_page' user_task.id %}" class="btn btn-secondary">
+            ← Назад
+        </a>
+    </div>
+
+    <div class="edit-form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h3>Основная информация</h3>
+                {{ form.executor }}
+                {{ form.config }}
+                {{ form.project }}
+            </div>
+
+            <div class="form-section">
+                <h3>Дополнительно</h3>
+                {{ form.result_path }}
+                {{ form.project_path }}
+                {{ form.parameters }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    💾 Сохранить изменения
+                </button>
+                <a href="{% url 'ansys_api_retrieve_user_task_page' user_task.id %}" class="btn btn-secondary">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

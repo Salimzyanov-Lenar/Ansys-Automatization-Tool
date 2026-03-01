@@ -1,7 +1,7 @@
 import time
 import subprocess
 import os
-from ansys_api.models import UserTask, CalculationResult
+from ansys_api.models import Experiment, UserTask, CalculationResult
 from django.core.files import File
 
 
@@ -32,7 +32,7 @@ class UserTaskExcutor:
             print(f"Exception occurred while executing Ansys Fluent: {e}")
 
 
-def execute_user_task(user_task: UserTask):
+def execute_user_task(user_task: UserTask, experiment: Experiment | None =None):
     """
     A function to execute Ansys Fluent with a given UserTask instance.
     """
@@ -50,6 +50,8 @@ def execute_user_task(user_task: UserTask):
         with open(result_path, 'rb') as csv_file:
             django_file = File(csv_file)
             result = CalculationResult(user_task=user_task)
+            if experiment:
+                result.experiment = experiment
             result.result.save(os.path.basename(result_path), django_file, save=True)
 
         print("Result saved.")

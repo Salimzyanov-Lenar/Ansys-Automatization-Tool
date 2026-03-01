@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Delete UserTask {{ user_task.id }}</h2>
+
+<p>Are you sure?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+</form>
+
+<a href="{% url 'ansys_api_retrieve_user_task_page' user_task.id %}">Cancel</a>
+
+{% endblock %}

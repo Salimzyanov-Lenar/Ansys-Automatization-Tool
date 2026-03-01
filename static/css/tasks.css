@@ -1,0 +1,77 @@
+/* Стили только для страницы задач */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.tasks-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1.2rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.id { width: 80px; font-family: monospace; color: #6b7280; font-weight: 500; }
+.file-link { 
+    color: #2563eb; 
+    text-decoration: none; 
+    font-family: monospace; 
+    font-size: 0.9rem; 
+}
+.file-link:hover { text-decoration: underline; }
+.no-file { color: #9ca3af; font-style: italic; }
+.date { color: #6b7280; font-size: 0.9rem; }
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+}
+
+.empty-state p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .page-header { flex-direction: column; gap: 1rem; align-items: stretch; }
+    .tasks-table { font-size: 0.9rem; }
+    th, td { padding: 0.8rem 0.5rem; }
+    .id { display: none; }
+}

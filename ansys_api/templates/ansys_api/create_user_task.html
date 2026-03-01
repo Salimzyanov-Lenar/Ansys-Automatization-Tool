@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Создать задачу{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task-create.css' %}">
+
+<div class="create-container">
+    <div class="create-header">
+        <h1>Создать задачу</h1>
+        <a href="{% url 'ansys_api_user_tasks_page' %}" class="btn btn-secondary">
+            ← К задачам
+        </a>
+    </div>
+
+    <div class="create-form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.config.id_for_label }}">Config:</label>
+                {{ form.config }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.project.id_for_label }}">Project:</label>
+                {{ form.project }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.executor.id_for_label }}">Executor:</label>
+                {{ form.executor }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.parameters.id_for_label }}">Parameters (JSON):</label>
+                {{ form.parameters }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Создать</button>
+                <a href="{% url 'ansys_api_user_tasks_page' %}" class="btn btn-secondary">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

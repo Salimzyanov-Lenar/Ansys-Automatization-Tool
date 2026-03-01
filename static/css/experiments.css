@@ -1,0 +1,204 @@
+.experiments-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Заголовок */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Таблица */
+.experiments-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.experiments-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.experiments-table th,
+.experiments-table td {
+    padding: 1rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+    vertical-align: top;
+}
+
+.experiments-table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+}
+
+.id {
+    width: 70px;
+    font-family: monospace;
+    color: #6b7280;
+}
+
+.date {
+    color: #6b7280;
+    font-size: 0.9rem;
+    width: 140px;
+}
+
+/* Ссылки */
+.experiment-link {
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.experiment-link:hover {
+    color: #2563eb;
+}
+
+.link {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Описание */
+.description {
+    max-width: 200px;
+    color: #6b7280;
+}
+
+/* Кнопки */
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-small {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+    border-color: #6b7280;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f1f5f9;
+}
+
+.empty-state h3 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+    .experiments-table {
+        font-size: 0.9rem;
+    }
+
+    .experiments-table th,
+    .experiments-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .page-header h1 {
+        text-align: center;
+    }
+
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .experiments-table {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .id,
+    .description {
+        display: none;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}

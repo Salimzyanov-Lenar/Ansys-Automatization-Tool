@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Графики{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/graphs.css' %}">
+
+<div class="graphs-container">
+    <div class="page-header">
+        <h1>Графики</h1>
+        <div class="header-actions">
+            <a href="{% url 'ansys_api_user_tasks_page' %}" class="btn btn-secondary">
+                ← К задачам
+            </a>
+            <a href="{% url 'ansys_api_results_page' %}" class="btn btn-secondary">
+                Результаты расчётов
+            </a>
+        </div>
+    </div>
+
+    {% if task_graphs %}
+        <div class="graphs-grid">
+            {% for graph in task_graphs %}
+            <div class="graph-card">
+                <div class="graph-image-wrapper">
+                    {% if graph.graph %}
+                        <a href="{{ graph.graph.url }}" target="_blank">
+                            <img src="{{ graph.graph.url }}" alt="Graph for task {{ graph.user_task.id }}">
+                        </a>
+                    {% else %}
+                        <div class="no-image">
+                            Нет изображения
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="graph-info">
+                    <div class="graph-task">
+                        <span class="label">Задача:</span>
+                        <a href="{% url 'ansys_api_retrieve_user_task_page' graph.user_task.id %}" class="link">
+                            #{{ graph.user_task.id }}
+                        </a>
+                    </div>
+                    <div class="graph-date">
+                        <span class="label">Создано:</span>
+                        <span class="value">
+                            {{ graph.created_at|date:"d.m.Y H:i" }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="graph-actions">
+                    {% if graph.graph %}
+                        <a href="{{ graph.graph.url }}" class="btn btn-small" target="_blank">
+                            Открыть в новом окне
+                        </a>
+                        <a href="{{ graph.graph.url }}" class="btn btn-small" download>
+                            Скачать
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Графиков пока нет.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

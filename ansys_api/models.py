@@ -76,8 +76,9 @@ class UserTask(models.Model):
 
         if self.config:
             self.result_path = _find_result_path(self.config.path)
-            self.parameters = _find_parameters(self.config.path)
             self.project_path = _find_project_path(self.config.path)
+            if not self.parameters:
+                self.parameters = _find_parameters(self.config.path)
             super().save(update_fields=['result_path', 'project_path', 'parameters'])
 
 
@@ -88,6 +89,7 @@ class CalculationResult(models.Model):
     result = models.FileField(upload_to='calculation_results/')
     user_task = models.ForeignKey(UserTask, on_delete=models.CASCADE, related_name="results")
     created_at = models.DateTimeField(auto_now_add=True)
+    experiment = models.ForeignKey("Experiment", on_delete=models.SET_NULL, related_name="calculation_results", null=True, blank=True)
 
     def __str__(self):
         return f"CalculationResult(result={self.result}, user_task={self.user_task})" 
@@ -100,6 +102,21 @@ class Graph(models.Model):
     graph = models.ImageField(upload_to='graphics/', null=True, blank=True, help_text="Leave blank will be filled after save")
     user_task = models.ForeignKey(UserTask, on_delete=models.CASCADE, related_name="graphics")
     created_at = models.DateTimeField(auto_now_add=True)
+    experiment = models.ForeignKey("Experiment", on_delete=models.SET_NULL, related_name="graphics", null=True, blank=True)
 
     def __str__(self):
         return f"Graph(graph={self.graph}, user_task={self.user_task})"
+
+
+class Experiment(models.Model):
+    """
+    Contains experiment data for ansys executor
+    """
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    user_task = models.ForeignKey(UserTask, on_delete=models.CASCADE, related_name="experiments")
+    created_at = models.DateTimeField(auto_now_add=True)
+    parameters = models.JSONField(default=dict, blank=True, null=True)
+
+    def __str__(self):
+        return f"Experiment(name={self.name})"

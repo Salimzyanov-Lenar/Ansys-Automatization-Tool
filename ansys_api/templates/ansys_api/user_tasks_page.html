@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Мои задачи{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+
+<div class="container">
+    <div class="page-header">
+        <h1>Список задач</h1>
+        <div>
+            <a href="{% url 'ansys_api_create_user_task' %}" class="btn btn-success">
+                + Создать задачу
+            </a>
+            <a href="/" class="btn btn-primary">← На главную</a>
+        </div>
+    </div>
+
+    {% if user_tasks %}
+        <div class="tasks-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Config</th>
+                        <th>Project</th>
+                        <th>Executor</th>
+                        <th>Создано</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in user_tasks %}
+                    <tr>
+                        <td class="id">{{ task.id }}
+                            <a href="{% url 'ansys_api_retrieve_user_task_page' task.id %}">View</a>
+                        </td>
+                        <td class="config">
+                            <a href="{{ task.config.url }}" target="_blank" class="file-link">
+                                {{ task.config.name|cut:"user_configs/"|slice:":50" }}
+                            </a>
+                        </td>
+                        <td class="project">
+                            {% if task.project %}
+                            <a href="{{ task.project.url }}" target="_blank" class="file-link">
+                                {{ task.project.name|cut:"user_configs/"|slice:":50" }}
+                            </a>
+                            {% else %}
+                            <span class="no-file">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="executor">{{ task.executor }}</td>
+                        <td class="date">{{ task.created_at|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Задачи пока не созданы</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

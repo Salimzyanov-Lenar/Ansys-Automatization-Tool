@@ -16,9 +16,10 @@ class UserTaskAdmin(admin.ModelAdmin):
     list_display = ('id', 'config', 'project', 'executor', 'created_at')
 
     def save_model(self, request, user_task, form, change):
-        super().save_model(request, user_task, form, change)
+        # super().save_model(request, user_task, form, change)
         update_config_with_new_params(user_task=user_task, new_params=form.cleaned_data["parameters"])
         execute_user_task(user_task)
+        super().save_model(request, user_task, form, change)
 
 
 @admin.register(CalculationResult)

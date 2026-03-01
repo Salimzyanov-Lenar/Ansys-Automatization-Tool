@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Задача #{{ user_task.id }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tasks-detail.css' %}">
+
+<div class="task-detail-container">
+    <div class="task-header">
+        <div class="header-left">
+            <h1>Задача #{{ user_task.id }}</h1>
+            <a href="{% url 'ansys_api_user_tasks_page' %}" class="btn btn-secondary">
+                ← К списку задач
+            </a>
+        </div>
+    </div>
+
+    <div class="task-info-grid">
+        <div class="task-card">
+            <h3>Основная информация</h3>
+            <div class="info-row">
+                <span class="info-label">Executor:</span>
+                <span class="info-value">{{ user_task.executor }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Создано:</span>
+                <span class="info-value">{{ user_task.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+        </div>
+
+        <div class="task-card">
+            <h3>Файлы</h3>
+            <div class="info-row">
+                <span class="info-label">Config:</span>
+                <a href="{{ user_task.config.url }}" class="file-link" target="_blank">Скачать</a>
+            </div>
+            {% if user_task.project %}
+            <div class="info-row">
+                <span class="info-label">Project:</span>
+                <a href="{{ user_task.project.url }}" class="file-link" target="_blank">Скачать</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="task-card full-width">
+            <h3>Пути и параметры</h3>
+            <div class="info-row">
+                <span class="info-label">Result path:</span>
+                <span class="info-value">{{ user_task.result_path|default:"—" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Project path:</span>
+                <span class="info-value">{{ user_task.project_path|default:"—" }}</span>
+            </div>
+        </div>
+
+        {% if user_task.parameters %}
+        <div class="task-card full-width">
+            <h3>Параметры</h3>
+            <pre class="params-pre">{{ user_task.parameters|safe }}</pre>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="task-actions">
+        <a href="{% url 'ansys_api_execute_user_task' user_task.id %}" class="btn btn-primary">Запустить c текущими параметрами</a>
+        <a href="{% url 'ansys_api_edit_user_task' user_task.id %}" class="btn btn-primary">Редактировать</a>
+        <a href="{% url 'ansys_api_run_experiment' user_task.id %}" class="btn btn-primary">Создать эксперимент</a>
+        <a href="{% url 'ansys_api_delete_user_task' user_task.id %}" class="btn btn-danger" onclick="return confirm('Удалить задачу?')">Удалить</a>
+    </div>
+</div>
+{% endblock %}

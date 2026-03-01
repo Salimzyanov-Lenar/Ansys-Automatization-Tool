@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Эксперимент для задачи #{{ user_task.id }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/experiment.css' %}">
+
+<div class="experiment-container">
+    <div class="experiment-header">
+        <div class="header-left">
+            <h1>Эксперимент для задачи #{{ user_task.id }}</h1>
+            <p class="subtitle">
+                Укажи параметры эксперимента в виде JSON. Для каждого набора значений будет выполнен отдельный расчёт.
+            </p>
+        </div>
+        <a href="{% url 'ansys_api_retrieve_user_task_page' user_task.id %}" class="btn btn-secondary">
+            ← Назад к задаче
+        </a>
+    </div>
+
+    <div class="experiment-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-section">
+                <h3>Данные эксперимента</h3>
+
+                <div class="form-group">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.name.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.description.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Parameters (JSON)</h3>
+
+                <div class="form-group">
+                    {{ form.experiment_parameters.label_tag }}
+                    {{ form.experiment_parameters }}
+                    {% if form.experiment_parameters.help_text %}
+                        <p class="help-text">{{ form.experiment_parameters.help_text }}</p>
+                        <p class="help-text">
+                            Пример:<br>
+                            <code>{
+  "pressure": "3611, 3612, 3613 [MPa]",
+  "Young's Modulus": "250000000000, 250000000000, 250000000000 [Pa]",
+  "Poisson's Ratio": "0.55, 0.55, 0.55"
+}</code>
+                        </p>
+                    {% endif %}
+                    {% if form.experiment_parameters.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.experiment_parameters.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Запустить эксперимент
+                </button>
+                <a href="{% url 'ansys_api_retrieve_user_task_page' user_task.id %}" class="btn btn-secondary">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message message-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

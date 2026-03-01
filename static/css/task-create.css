@@ -1,0 +1,174 @@
+.create-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid #e5e7eb;
+}
+
+.create-header h1 {
+    font-size: 2.2rem;
+    color: #1f2937;
+    margin: 0;
+    font-weight: 700;
+}
+
+.create-form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    border: 1px solid #f1f5f9;
+}
+
+/* Группы полей */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+/* Поля формы */
+input[type="text"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    background: #f9fafb;
+}
+
+/* Файловые поля */
+input[type="file"] {
+    padding: 0.6rem;
+    background: #f8fafc;
+    border-color: #d1d5db;
+}
+
+input[type="file"]:hover {
+    background: #f1f5f9;
+}
+
+/* Кнопки */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.6rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+    border-color: #6b7280;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
+}
+
+/* Ошибки формы */
+.errorlist {
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    margin: 0 0 0.5rem 0;
+    list-style: none;
+    font-size: 0.85rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .create-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .create-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .create-header h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .create-form-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

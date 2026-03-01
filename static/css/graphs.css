@@ -1,0 +1,170 @@
+.graphs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Заголовок */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Сетка карточек */
+.graphs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Карточка графика */
+.graph-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Обёртка для изображения */
+.graph-image-wrapper {
+    background: #0f172a;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.graph-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #020617;
+}
+
+/* Если нет картинки */
+.no-image {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+/* Информация под картинкой */
+.graph-info {
+    padding: 1rem 1rem 0.5rem 1rem;
+}
+
+.graph-task,
+.graph-date {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+.value {
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+/* Ссылки */
+.link {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Кнопки */
+.graph-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem 1rem 1rem;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-small {
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: #e5e7eb;
+    color: #374151;
+    font-size: 0.8rem;
+}
+
+.btn-small:hover {
+    background: #d1d5db;
+}
+
+/* Кнопки из базового стиля можно переиспользовать:
+   btn-secondary уже есть в base.css */
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Адаптивность */
+@media (max-width: 640px) {
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .page-header h1 {
+        text-align: center;
+    }
+
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
