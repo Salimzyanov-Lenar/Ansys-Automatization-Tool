@@ -56,48 +56,71 @@ def update_config_with_new_params(user_task: UserTask, new_params: dict[str, Any
         f.write(content)
 
 
-def parse_result_from_calculation_result(calculation_result: CalculationResult) -> dict[str, float]:
-    
+def parse_result_from_calculation_result(
+    calculation_result: CalculationResult,
+) -> tuple[dict[str, float], list[str], list[str]]:
+    """
+    Returns:
+        - result dict: {full_param_name: float_value}
+        - input_keys: param names whose raw CSV value has <= 4 decimal digits (user-set)
+        - output_keys: param names whose raw CSV value has > 4 decimal digits (Ansys-computed)
+    """
     parameters: list[str] | None = None
-    values: list[float] | None = None
+    raw_values: list[str] | None = None
 
     with open(calculation_result.result.path, newline='', encoding='utf-8-sig') as f:
         reader = csv.reader(f, delimiter='\t')
 
         for row in reader:
             row_as_string: str = row[0]
-
-            string_parts: list[str] = row_as_string.split(',')
-            string_parts: list[str] = [part.strip() for part in string_parts]
+            string_parts: list[str] = [part.strip() for part in row_as_string.split(',')]
 
             if string_parts[0] == '#' and any('P1 ' in part for part in string_parts):
                 parameters = string_parts[1:]
                 continue
-        
+
             if 'DP' in string_parts[0]:
-                values = [float(part) for part in string_parts[1:]]
+                raw_values = string_parts[1:]
                 break
 
-    result = {key: value for key, value in zip(parameters, values)} if parameters and values else {}
-    return result
+    if not parameters or not raw_values:
+        return {}, [], []
+
+    def _decimal_digits(s: str) -> int:
+        return len(s.split('.')[1]) if '.' in s else 0
+
+    input_keys, output_keys = [], []
+    for param, raw in zip(parameters, raw_values):
+        if _decimal_digits(raw) > 4:
+            output_keys.append(param)
+        else:
+            input_keys.append(param)
+
+    result = {key: float(raw) for key, raw in zip(parameters, raw_values)}
+    return result, input_keys, output_keys
 
 
 def _build_graph_for_experiment(experiment: Experiment):
 
-    calculation_results = experiment.calculation_results.order_by("-created_at")
+    calculation_results = list(experiment.calculation_results.order_by("-created_at"))
 
-    graph_values = [
-        parse_result_from_calculation_result(r)
-        for r in calculation_results
-    ]
-
-    if not graph_values:
+    if experiment.graphics.exists():
         return
 
-    keys = list(graph_values[0].keys())
+    if not calculation_results:
+        return
 
-    input_keys = [k for k in keys if k.startswith("P") and int(k.split()[0][1:]) < 7]
-    output_keys = [k for k in keys if k.startswith("P") and int(k.split()[0][1:]) >= 7]
+    input_keys, output_keys = None, None
+    graph_values = []
+
+    for r in calculation_results:
+        result, i_keys, o_keys = parse_result_from_calculation_result(r)
+        graph_values.append(result)
+        if input_keys is None:  # take from first (most recent) result
+            input_keys, output_keys = i_keys, o_keys
+
+    if not graph_values or not input_keys or not output_keys:
+        return
 
     graphs = []
 
@@ -118,58 +141,17 @@ def _build_graph_for_experiment(experiment: Experiment):
             buffer = BytesIO()
             plt.savefig(buffer, format="png", dpi=300)
             plt.close()
-
             buffer.seek(0)
 
             graph = Graph(user_task=experiment.user_task, experiment=experiment)
             graph.graph.save(
-                f'graph_{uuid.uuid4().hex}.png',
+                f"graph_{uuid.uuid4().hex}.png",
                 ContentFile(buffer.read()),
-                save=True
+                save=True,
             )
-
             graphs.append(graph)
 
     return graphs
-
-# def _build_graph_for_experiment(experiment: Experiment) -> Graph:
-#     calculation_results = experiment.calculation_results.order_by("-created_at")
-
-#     graph_values = [
-#         parse_result_from_calculation_result(r)
-#         for r in calculation_results
-#     ]
-
-#     breakpoint()
-#     if not graph_values:
-#         return
-    
-#     # ключи
-#     x_key = list(graph_values[0].keys())[0]
-#     y_key = list(graph_values[0].keys())[1]
-
-#     # сортировка (важно)
-#     graph_values.sort(key=lambda d: d[x_key])
-
-#     x = [d[x_key] for d in graph_values]
-#     y = [d[y_key] for d in graph_values]
-
-#     # строим график
-#     plt.figure()
-#     plt.plot(x, y)
-#     plt.xlabel(x_key)
-#     plt.ylabel(y_key)
-#     plt.grid(True)
-
-#     # сохраняем в память
-#     buffer = BytesIO()
-#     plt.savefig(buffer, format='png', dpi=300)
-#     plt.close()
-#     buffer.seek(0)
-
-#     graph = Graph(user_task=experiment.user_task, experiment=experiment)
-#     graph.graph.save(f'graph_{uuid.uuid4().hex}.png', ContentFile(buffer.read()), save=True)
-#     return graph
 
 
 def _build_graph_with_experiement_result(graph: Graph) -> None:

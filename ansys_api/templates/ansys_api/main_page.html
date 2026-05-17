@@ -3,6 +3,134 @@
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
-<h2>Главная</h2>
-<p>Это контент главной страницы.</p>
+
+<style>
+    .main-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .hero-block {
+        background: #f4f6f9;
+        border: 1px solid #dcdfe4;
+        border-radius: 12px;
+        padding: 35px;
+        margin-bottom: 30px;
+    }
+
+    .hero-block h2 {
+        margin-bottom: 20px;
+        color: #1f2937;
+    }
+
+    .hero-block p {
+        color: #4b5563;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .cards {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .card-block {
+        flex: 1;
+        min-width: 320px;
+        background: white;
+        border: 1px solid #dcdfe4;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card-block h4 {
+        margin-bottom: 20px;
+        color: #1f2937;
+    }
+
+    .card-block ul,
+    .card-block ol {
+        padding-left: 20px;
+        color: #4b5563;
+        line-height: 1.8;
+    }
+
+    .info-block {
+        background: #eef6ff;
+        border-left: 5px solid #3b82f6;
+        padding: 20px;
+        border-radius: 8px;
+        color: #374151;
+        line-height: 1.6;
+    }
+
+    .highlight {
+        color: #2563eb;
+        font-weight: bold;
+    }
+</style>
+
+<div class="main-container">
+
+    <div class="hero-block">
+        <h2>Автоматизированный расчётный комплекс</h2>
+
+        <p>
+            Приложение предназначено для автоматизации инженерных расчётов
+            в среде <span class="highlight">Ansys Workbench</span>
+            с использованием журнальных файлов формата
+            <span class="highlight">.wbjn</span>.
+        </p>
+
+        <p>
+            Система позволяет изменять параметры расчётной модели,
+            автоматически запускать расчёт и получать основные результаты
+            моделирования без необходимости ручной настройки проекта
+            в интерфейсе Ansys Workbench.
+        </p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card-block">
+            <h4>Основные возможности</h4>
+
+            <ul>
+                <li>Загрузка проектов Ansys Workbench</li>
+                <li>Работа с журналами <strong>.wbjn</strong></li>
+                <li>Изменение параметров расчёта</li>
+                <li>Автоматический запуск моделирования</li>
+                <li>Получение результатов расчёта</li>
+                <li>Пошаговая визуализация результатов</li>
+            </ul>
+        </div>
+
+        <div class="card-block">
+            <h4>Порядок работы</h4>
+
+            <ol>
+                <li>Выберите файл проекта (*.wbpj)</li>
+                <li>Загрузите файл журнала (*.wbjn)</li>
+                <li>Введите параметры модели</li>
+                <li>Запустите расчёт</li>
+                <li>Просмотрите результаты моделирования</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <div class="info-block">
+        <strong>Примечание:</strong>
+        приложение предназначено для автоматизации типовых задач
+        статической прочности, уменьшения количества ручных операций
+        и повышения удобства взаимодействия с системой Ansys Workbench.
+    </div>
+
+</div>
+
 {% endblock %}
