@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from ansys_api.models import Executor, UserTask, CalculationResult, Graph
+from ansys_api.models import Executor, Experiment, UserTask, CalculationResult, Graph
 from ansys_api.executor import execute_user_task
 from ansys_api.services import update_config_with_new_params, _build_graph_with_experiement_result
 
@@ -9,6 +9,11 @@ from ansys_api.services import update_config_with_new_params, _build_graph_with_
 @admin.register(Executor)
 class ExecutorAdmin(admin.ModelAdmin):
     list_display = ('id', 'path')
+
+
+@admin.register(Experiment)
+class ExperimentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description')
 
 
 @admin.register(UserTask)
